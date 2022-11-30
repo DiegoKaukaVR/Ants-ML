@@ -20,7 +20,6 @@ public class Ant : IABase
         if (antType == Mode.Mode3D)
         {
             UpdateLogic3D();
-
         }
         else
         {
@@ -34,7 +33,6 @@ public class Ant : IABase
         if (antType == Mode.Mode3D)
         {
             UpdateLogic3D();
-
         }
         else
         {
@@ -48,15 +46,14 @@ public class Ant : IABase
     public LayerMask GroundLayer;
     public void Update2D()
     {
-        RaycastHit[] results1;
-        RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, -transform.up, detectionGround2D, 6); // Ground Layer
+        RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, -transform.up, detectionGround2D, GroundLayer); // Ground Layer
        
         if (raycastHit.collider != null && DetectLayer.LayerInLayerMask(raycastHit.collider.gameObject.layer, GroundLayer))
         {
             Debug.DrawRay(transform.position, -transform.up, Color.green);
             Debug.DrawRay(raycastHit.point, raycastHit.normal, Color.red);
-         
 
+            //transform.up = raycastHit.normal;
         }
 
 
@@ -110,11 +107,6 @@ public class Ant : IABase
             {
                 Gizmos.DrawCube(targetPos2D, Vector2.one);
             }
-          
-          
-
-
-
         }
     
     }

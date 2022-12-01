@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class AnimatorManager : MonoBehaviour
 {
-    IABase entity;
+    Ant entity;
     Animator animator;
 
     private void Start()
     {
-        entity = GetComponentInParent<IABase>();
+        entity = GetComponentInParent<Ant>();
         animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
-        if (entity.antType == IABase.Mode.Mode3D)
+        if (entity.antType == Ant.Mode.Mode3D)
         {
             UpdateXZVelocity();
         }
@@ -25,7 +25,7 @@ public class AnimatorManager : MonoBehaviour
     Vector3 interpolatedVelocity;
     public virtual void UpdateXZVelocity()
     {
-        if (entity.antType == IABase.Mode.Mode3D)
+        if (entity.antType == Ant.Mode.Mode3D)
         {
             Vector3 localVelocity = transform.InverseTransformDirection(entity.myNavmeshAgent.velocity);
             interpolatedVelocity = Vector3.Lerp(interpolatedVelocity, localVelocity, 0.1f);

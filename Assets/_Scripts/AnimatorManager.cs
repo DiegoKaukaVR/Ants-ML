@@ -15,7 +15,11 @@ public class AnimatorManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        UpdateXZVelocity();
+        if (entity.antType == IABase.Mode.Mode3D)
+        {
+            UpdateXZVelocity();
+        }
+       
     }
 
     Vector3 interpolatedVelocity;

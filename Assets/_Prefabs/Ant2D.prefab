@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1816354436721276145}
-  - component: {fileID: 1816354436721276146}
+  - component: {fileID: 1515948804}
+  - component: {fileID: 1515948807}
   m_Layer: 0
   m_Name: Ant2D
   m_TagString: Untagged
@@ -33,7 +34,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1816354436721276146
+--- !u!50 &1515948804
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816354436721276144}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 200
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 6
+--- !u!114 &1515948807
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,11 +64,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1816354436721276144}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17646b43beb3b6547a2b35f598216301, type: 3}
+  m_Script: {fileID: 11500000, guid: 4072c7bd47561f5479d1f1b08a971d5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myNavmeshAgent: {fileID: 0}
   animatorManager: {fileID: 0}
+  myNavmeshAgent: {fileID: 0}
+  antType: 0
+  targetPos2D: {x: 0, y: 0}
+  detectionGround2D: 0
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  speed: 0.5
 --- !u!1001 &1816354437701443620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 5401138677744005358, guid: f1746fe100d0d0b41bfcc405145aaf81, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: edacec4a13f818b48998898296135cdc, type: 2}
+      objectReference: {fileID: 9100000, guid: b3bcc7a4c54b50b47b5f39775ab28f1c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1746fe100d0d0b41bfcc405145aaf81, type: 3}
 --- !u!4 &6034911180150154144 stripped

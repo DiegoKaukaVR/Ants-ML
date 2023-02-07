@@ -13,22 +13,40 @@ public class Ant3D : Ant
     void Initialization3D()
     {
         Debug.Log("3D Ant");
-       
-        GoToTarget(FindRandomValidNavmeshPoint());
+
+        if (queen)
+        {
+            return;
+        }
+        if (colonyID == 0)
+        {
+            GoToTarget(FindRandomValidNavmeshPoint());
+        }
+        else
+        {
+            GoToTarget(Target.position);
+        }
+        
     }
 
     #region Movement 3D
 
     protected void Update()
     {
-
+        if (queen)
+        {
+            return;
+        }
         UpdateLogic3D();
 
 
     }
     protected void FixedUpdate()
     {
-
+        if (queen)
+        {
+            return;
+        }
         UpdateLogic3D();
 
     }
@@ -36,10 +54,20 @@ public class Ant3D : Ant
 
     public void UpdateLogic3D()
     {
-        if (myNavmeshAgent.remainingDistance <= 0.2f)
+        if (colonyID == 0)
         {
-            GoToTarget(FindRandomValidNavmeshPoint());
+            if (myNavmeshAgent.remainingDistance <= 0.2f)
+            {
+                GoToTarget(FindRandomValidNavmeshPoint());
+            }
         }
+        else
+        {
+           
+                GoToTarget(Target.position);
+          
+        }
+      
     }
 
 

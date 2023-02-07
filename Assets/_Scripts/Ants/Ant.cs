@@ -7,28 +7,30 @@ public class Ant : MonoBehaviour
 {
     public int colonyID;
 
-  
+    public bool queen;
+
+    public Transform Target;
 
     [HideInInspector] public AnimatorManager animatorManager;
     [HideInInspector] public NavMeshAgent myNavmeshAgent;
 
     #region Stats System
-    //[Header("Stats")]
-    //public int currentHp;
-    //public int maxHp = 10;
-    //public int damage = 1;
-    //public int strenght = 5;
-    //public int speed = 1;
+    [Header("Stats")]
+    public int currentHp;
+    public int maxHp = 10;
+    public int damage = 1;
+    public int strenght = 5;
+ 
 
-    //public statsBase Stats;
+    public statsBase Stats;
 
-    //[System.Serializable]
-    //public struct statsBase
-    //{
-    //    public int baseHP;
-    //    public int baseDamage;
-    //    public int baseSpeed;
-    //}
+    [System.Serializable]
+    public struct statsBase
+    {
+        public int baseHP;
+        public int baseDamage;
+        public int baseSpeed;
+    }
 
     #endregion
 

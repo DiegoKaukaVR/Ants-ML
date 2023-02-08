@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Ant3D : Ant
 {
+    [Header("Ant 3D")]
+    [SerializeField] protected Vector3 targetPos;
     protected override void Start()
     {
         base.Start();
@@ -74,7 +76,7 @@ public class Ant3D : Ant
 
     #endregion
 
-    protected Vector3 targetPos;
+
 
     public void GoToTarget(Vector3 pos)
     {

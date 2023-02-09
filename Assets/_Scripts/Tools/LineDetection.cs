@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineDetectionTest : MonoBehaviour
+public class LineDetection : MonoBehaviour
 {
     public Transform Target;
 

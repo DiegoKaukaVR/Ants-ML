@@ -11,6 +11,19 @@ public class Resource : MonoBehaviour
 {
     protected Rigidbody rb;
 
+    public int Quantity;
+
+    public void GatherResource()
+    {
+        if (Quantity <= 0)
+        {
+            this.gameObject.SetActive(false);
+            return;
+        }
+
+        Quantity -= 1;
+    }
+
     [SerializeField] protected float mass;
 
     protected virtual void Awake()

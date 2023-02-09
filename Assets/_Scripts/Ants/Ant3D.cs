@@ -7,6 +7,7 @@ public class Ant3D : Ant
 {
     [Header("Ant 3D")]
     [SerializeField] protected Vector3 targetPos;
+    public TraceGenerator traceGenerator;
     protected override void Start()
     {
         base.Start();
@@ -28,6 +29,8 @@ public class Ant3D : Ant
         {
             GoToTarget(Target.position);
         }
+
+        traceGenerator = GetComponentInChildren<TraceGenerator>();
         
     }
 
@@ -39,6 +42,7 @@ public class Ant3D : Ant
         {
             return;
         }
+
         UpdateLogic3D();
 
 
@@ -58,16 +62,10 @@ public class Ant3D : Ant
     {
         if (colonyID == 0)
         {
-            if (myNavmeshAgent.remainingDistance <= 0.2f)
-            {
-                GoToTarget(FindRandomValidNavmeshPoint());
-            }
         }
         else
         {
-           
-                GoToTarget(Target.position);
-          
+            GoToTarget(Target.position); 
         }
       
     }
@@ -84,6 +82,10 @@ public class Ant3D : Ant
         targetPos = pos;
         myNavmeshAgent.SetDestination(pos);
     }
+    public void StopAgent()
+    {
+        myNavmeshAgent.ResetPath();
+    }
 
     public Vector3 FindRandomValidNavmeshPoint()
     {
@@ -99,6 +101,7 @@ public class Ant3D : Ant
 
         return finalPoint;
     }
+
 
     private void OnDrawGizmosSelected()
     {

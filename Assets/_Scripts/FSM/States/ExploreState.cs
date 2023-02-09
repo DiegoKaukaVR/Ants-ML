@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExploreState : MonoBehaviour
+public class ExploreState : StateBase
 {
-    // Start is called before the first frame update
-    void Start()
+   
+
+
+    public override void OnExecuteState()
     {
-        
+        if (entity.myNavmeshAgent.remainingDistance <= 0.2f)
+        {
+            entity.GoToTarget(entity.FindRandomValidNavmeshPoint());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnExitState()
     {
-        
+        base.OnExitState();
+        entity.StopAgent();
     }
 }

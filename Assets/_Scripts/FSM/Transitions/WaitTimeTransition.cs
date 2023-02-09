@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitTimeTransition : MonoBehaviour
+public class WaitTimeTransition : TransitionBase
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float currentTimer;
+    [SerializeField] float maxTime;
+    public override bool CheckTransition()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (currentTimer>maxTime)
+        {
+            currentTimer = 0;
+            return true;
+        }
+        else
+        {
+            currentTimer += Time.deltaTime;
+            return false;
+        }
     }
 }

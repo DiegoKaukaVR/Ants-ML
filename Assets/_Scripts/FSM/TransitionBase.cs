@@ -6,8 +6,7 @@ public abstract class TransitionBase : MonoBehaviour
 {
     bool transition;
 
-    public StateBase transitionState;
-    public bool CheckTransition()
+    public virtual bool CheckTransition()
     {
         if (transition)
         {

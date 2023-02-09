@@ -7,25 +7,52 @@ using UnityEngine;
 /// </summary>
 public class FSM : MonoBehaviour
 {
-    public List<StateBase> listStates;
-    StateBase currentState;
+    public Dictionary<string, StateBase> DictionaryStates = new Dictionary<string, StateBase>();
+
+    [SerializeField] StateBase currentState;
+    [SerializeField] StateBase previousState;
+    [SerializeField] float timeInState;
 
     private void Awake()
     {
-        ///HOW TO SET STATES
-        ///HOW TO CALL STATES FROM OUTSIDE: FSM.CHANGESTATE(???)
-        ///STRUCTURE? DICTIONARY BY STRING?...
+        InitializeFSM();
     }
+
+    void InitializeFSM()
+    {
+        SetStates();
+        currentState = DictionaryStates["InitialState"];
+        currentState.OnEnterState();
+    }
+    
+    void SetStates()
+    {
+        foreach (StateBase state in GetComponentsInChildren<StateBase>())
+        {
+            DictionaryStates.Add(state.NameState, state);
+            state.fsm = this;
+        }
+    }
+
     private void Update()
     {
         if (currentState!=null)
         {
+            timeInState += Time.deltaTime;
             currentState.OnExecuteState();
+
+            CheckTransitions();
         }
     }
-    public void ChangeState(StateBase newState)
+    public void ChangeState(string nameState)
     {
+        StateBase newState;
+        newState = DictionaryStates[nameState];
+       
         currentState.OnExitState();
+        previousState = currentState;
+        timeInState = 0;
+
         currentState = newState;
         currentState.OnEnterState();
     }
@@ -34,9 +61,13 @@ public class FSM : MonoBehaviour
     {
         for (int i = 0; i < currentState.transitions.Count; i++)
         {
-            if (currentState.transitions[i].CheckTransition())
+            if (currentState.transitions[i].avaible == false)
             {
-                ChangeState(currentState.transitions[i].transitionState);
+                continue;
+            }
+            if (currentState.transitions[i].transitionType.CheckTransition())
+            {
+                ChangeState(currentState.transitions[i].NameState);
             }
         }
     }

@@ -11,8 +11,12 @@ public class Ant : MonoBehaviour
 
     public Transform Target;
 
+    [HideInInspector] public Animator animator;
     [HideInInspector] public AnimatorManager animatorManager;
     [HideInInspector] public NavMeshAgent myNavmeshAgent;
+
+    public bool isPerformingAction;
+
 
     #region Stats System
     [Header("Stats")]
@@ -46,5 +50,6 @@ public class Ant : MonoBehaviour
     {
         myNavmeshAgent = GetComponent<NavMeshAgent>();
         animatorManager = GetComponentInChildren<AnimatorManager>();
+        animator = animatorManager.GetComponent<Animator>();
     }
 }

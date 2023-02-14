@@ -11,7 +11,7 @@ public class Resource : MonoBehaviour
 {
     protected Rigidbody rb;
 
-    public int Quantity;
+    public int Quantity = 5;
 
     public void GatherResource()
     {

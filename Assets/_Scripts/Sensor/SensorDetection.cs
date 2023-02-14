@@ -14,6 +14,7 @@ public class SensorDetection : SensorBase
 
         if (targetAround.Length>0)
         {
+            entity.Target = targetAround[0].transform.root;
             return true;
         }
         else

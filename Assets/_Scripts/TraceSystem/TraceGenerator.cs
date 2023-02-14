@@ -12,6 +12,7 @@ public class TraceGenerator : MonoBehaviour
     public float lenghtSteps = 20f;
 
     [Header("Trace Configuration")]
+    [SerializeField] bool debug = true;
     TraceManager traceManager;
     Trace trace = new Trace();
     public class Trace
@@ -27,8 +28,12 @@ public class TraceGenerator : MonoBehaviour
   
 
     [SerializeField] Material whiteMaterial;
+    [SerializeField] GameObject whiteTrail;
     [SerializeField] Material greenMaterial;
+    [SerializeField] GameObject greenTrail;
     [SerializeField] Material redMaterial;
+    [SerializeField] GameObject redTrail;
+
 
     private void Start()
     {
@@ -66,7 +71,16 @@ public class TraceGenerator : MonoBehaviour
         trace.pointsQueue.Enqueue(point.transform);
 
         /// CLASIFY TYPE INFO - RED WHITE OR GREEN
-        point.GetComponent<MeshRenderer>().material = GetMaterial(currentInfo);
+
+        if (debug)
+        {
+            point.GetComponent<MeshRenderer>().material = GetMaterial(currentInfo);
+        }
+        else
+        {
+            point.GetComponent<MeshRenderer>().enabled = false;
+        }
+      
     }
 
     void DeleteTrace()
@@ -80,16 +94,24 @@ public class TraceGenerator : MonoBehaviour
 
     public void SetCurrentInfo(int index)
     {
+
+        whiteTrail.SetActive(false);
+        greenTrail.SetActive(false);
+        redTrail.SetActive(false);
+
         switch (index)  
         {
             case 0:
                 currentInfo = TraceManager.Info.white;
+                whiteTrail.SetActive(true);
                 break;
             case 1:
                 currentInfo = TraceManager.Info.green;
+                greenTrail.SetActive(true);
                 break;
             case 2:
                 currentInfo = TraceManager.Info.red;
+                redTrail.SetActive(true);
                 break;
             default:
                 break;

@@ -13,6 +13,8 @@ public abstract class StateBase : MonoBehaviour
     [HideInInspector] public FSM fsm;
     [HideInInspector] public Ant3D entity;
 
+ 
+
     [System.Serializable]
     public class StateEvents
     {

@@ -5,23 +5,16 @@ using UnityEngine;
 public class SensorTrace : SensorBase
 {
     TraceManager traceManager;
-    Ant ant;
     TraceGenerator traceGenerator;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         traceManager = TraceManager.instance;
     }
     public override bool UpdateSensor()
     {
-        return traceManager.CheckTraceProximity(ant);
+        return traceManager.CheckTraceProximity(entity);
     }
-
-    //private void Update()
-    //{
-    //    
-    //}
-
-
 
 }

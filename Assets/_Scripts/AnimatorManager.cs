@@ -15,6 +15,7 @@ public class AnimatorManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        entity.isPerformingAction = animator.GetBool("isPerformingAction");
         if (entity.antType == Ant.Mode.Mode3D)
         {
             UpdateXZVelocity();

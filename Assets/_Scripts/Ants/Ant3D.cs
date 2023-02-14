@@ -65,7 +65,7 @@ public class Ant3D : Ant
         }
         else
         {
-            GoToTarget(Target.position); 
+            //GoToTarget(Target.position); 
         }
       
     }

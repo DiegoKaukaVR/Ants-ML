@@ -8,10 +8,10 @@ public class Colony : MonoBehaviour
 
     [Header("Population")]
     public int Population;
-    public Ant queen;
-    public List<Ant> workers;
-    public List<Ant> males;
-    public List<Ant> princesses;
+    public Character queen;
+    public List<Character> workers;
+    public List<Character> males;
+    public List<Character> princesses;
 
 
 

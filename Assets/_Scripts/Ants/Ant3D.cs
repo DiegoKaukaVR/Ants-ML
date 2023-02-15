@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Ant3D : Ant
+public class Ant3D : Character
 {
     [Header("Ant 3D")]
     [SerializeField] protected Vector3 targetPos;
     public TraceGenerator traceGenerator;
+
+
     protected override void Start()
     {
         base.Start();
@@ -21,17 +23,11 @@ public class Ant3D : Ant
         {
             return;
         }
-        if (colonyID == 0)
-        {
-            GoToTarget(FindRandomValidNavmeshPoint());
-        }
-        else
-        {
-            GoToTarget(Target.position);
-        }
 
         traceGenerator = GetComponentInChildren<TraceGenerator>();
-        
+       
+
+
     }
 
     #region Movement 3D
@@ -91,7 +87,7 @@ public class Ant3D : Ant
     {
         Vector3 finalPoint = new Vector3();
 
-        Vector3 randomPoint = new Vector3(Random.Range(0, 10), 0, Random.Range(0, 10));
+        Vector3 randomPoint = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
         NavMeshHit navMeshHit;
 
         if (NavMesh.SamplePosition(randomPoint, out navMeshHit, 0.2f, NavMesh.AllAreas))
@@ -105,7 +101,7 @@ public class Ant3D : Ant
 
     private void OnDrawGizmosSelected()
     {
-        if (antType == Ant.Mode.Mode3D)
+        if (antType == Character.Mode.Mode3D)
         {
             if (targetPos == Vector3.zero)
             {

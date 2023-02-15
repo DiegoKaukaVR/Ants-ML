@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tools;
 
-public class Ant2D : Ant
+public class Ant2D : Character
 {
     public Vector2 targetPos2D;
     Rigidbody2D rb2D;

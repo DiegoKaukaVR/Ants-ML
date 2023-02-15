@@ -5,6 +5,7 @@ using UnityEngine;
 public class CombatState : StateBase
 {
     public float attackDistance = 1f;
+    public float minAngleAttack = 45f;
     public float cooldownAttack = 2f;
     bool canAttack = true;
 
@@ -25,7 +26,7 @@ public class CombatState : StateBase
         entity.GoToTarget(entity.Target.position);
 
 
-        if (canAttack)
+        if (CanAttack())
         {
             if (Vector3.Distance(transform.position, entity.Target.position) < attackDistance)
             {
@@ -33,6 +34,25 @@ public class CombatState : StateBase
             }
         }
        
+    }
+    bool CanAttack()
+    {
+        float angleTarget = Vector3.Angle(entity.transform.forward, entity.CheckDirectionTarget());
+
+        Debug.DrawRay(transform.position, entity.CheckDirectionTarget().normalized, Color.red);
+        Debug.DrawRay(transform.position, transform.forward, Color.green);
+
+        if (angleTarget > minAngleAttack)
+        {
+            return false;
+        }
+
+        if (!canAttack)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     void Attack()

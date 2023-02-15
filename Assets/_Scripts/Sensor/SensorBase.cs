@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SensorBase : MonoBehaviour
 {
-    protected Ant entity;
+    protected Character entity;
 
     protected virtual void Start()
     {
-        entity = GetComponentInParent<Ant>();
+        entity = GetComponentInParent<Character>();
     }
     public virtual bool UpdateSensor()
     {

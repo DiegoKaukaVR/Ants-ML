@@ -14,7 +14,7 @@ public class TraceManager : MonoBehaviour
         red
     }
 
-    Dictionary<Ant, Queue<Transform>> DictionaryAllTraces = new Dictionary<Ant, Queue<Transform>>();
+    Dictionary<Character, Queue<Transform>> DictionaryAllTraces = new Dictionary<Character, Queue<Transform>>();
     private void Awake()
     {
         if (instance != null)
@@ -35,9 +35,9 @@ public class TraceManager : MonoBehaviour
     Vector3 B;
     Vector3 C;
 
-    public bool CheckTraceProximity(Ant ant)
+    public bool CheckTraceProximity(Character ant)
     {
-        foreach (KeyValuePair<Ant, Queue<Transform>> element in DictionaryAllTraces)
+        foreach (KeyValuePair<Character, Queue<Transform>> element in DictionaryAllTraces)
         {
             for (int i = 0; i < element.Value.Count; i++)
             {

@@ -269,6 +269,7 @@ public class Character : MonoBehaviour
     public void Death()
     {
         animator.SetTrigger("Death");
+        myNavmeshAgent.enabled = false;
         coll.enabled = false;
         dead = true;
 

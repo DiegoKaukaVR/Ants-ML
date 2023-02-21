@@ -9,6 +9,8 @@ public class CombatState : StateBase
     public float cooldownAttack = 2f;
     bool canAttack = true;
 
+    public float stoppDist = 1.45f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -31,7 +33,7 @@ public class CombatState : StateBase
         float angleTarget = Vector3.Angle(entity.transform.forward, entity.CheckDirectionTarget());
         float dist = entity.CheckDistanceTarget();
 
-        if (dist<1.45f)
+        if (dist < stoppDist)
         {
             entity.StopAgent();
         }
@@ -39,13 +41,13 @@ public class CombatState : StateBase
         {
             entity.GoToTarget(entity.Target.position);
         }
-      
 
-     
+
+
         ///rotation to target
         if (dist<3)
         {
-            entity.SlerpRotationTarget(angleTarget);
+            entity.SlerpRotationTarget(0);
         }
         else
         {

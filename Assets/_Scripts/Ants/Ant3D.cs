@@ -80,6 +80,7 @@ public class Ant3D : Character
     }
     public void StopAgent()
     {
+        myNavmeshAgent.velocity = Vector3.zero;
         myNavmeshAgent.ResetPath();
     }
 

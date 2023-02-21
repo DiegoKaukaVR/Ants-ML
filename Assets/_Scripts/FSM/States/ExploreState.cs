@@ -9,7 +9,7 @@ public class ExploreState : StateBase
 
     public override void OnExecuteState()
     {
-        if (entity.myNavmeshAgent.remainingDistance <= 0.2f)
+        if (entity.myNavmeshAgent.remainingDistance <= 0.3f)
         {
             entity.GoToTarget(entity.FindRandomValidNavmeshPoint());
         }

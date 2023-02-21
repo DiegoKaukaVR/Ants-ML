@@ -44,6 +44,14 @@ public class FSM : MonoBehaviour
             CheckTransitions();
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (currentState != null)
+        {
+            currentState.OnFixedExecuteState();
+        }
+    }
     public void ChangeState(string nameState)
     {
         StateBase newState;
@@ -65,10 +73,21 @@ public class FSM : MonoBehaviour
             {
                 continue;
             }
-            if (currentState.transitions[i].transitionType.CheckTransition())
+            if (currentState.transitions[i].whenFalse)
             {
-                ChangeState(currentState.transitions[i].NameState);
+                if (!currentState.transitions[i].transitionType.CheckTransition())
+                {
+                    ChangeState(currentState.transitions[i].NameState);
+                }
             }
+            else
+            {
+                if (currentState.transitions[i].transitionType.CheckTransition())
+                {
+                    ChangeState(currentState.transitions[i].NameState);
+                }
+            }
+            
         }
     }
 }

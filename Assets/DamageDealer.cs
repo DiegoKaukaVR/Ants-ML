@@ -47,7 +47,8 @@ public class DamageDealer : MonoBehaviour
 
     void DoDamage(Character target)
     {
-        target.ReceiveDamage(Mathf.RoundToInt(damage));
+        
+        target.ReceiveDamage(Mathf.RoundToInt(damage), user.transform.position);
        
     }
 }

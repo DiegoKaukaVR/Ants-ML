@@ -27,6 +27,7 @@ public abstract class StateBase : MonoBehaviour
     {
         public string NameState;
         public TransitionBase transitionType;
+        public bool whenFalse;
         public bool avaible;
     }
 
@@ -46,6 +47,11 @@ public abstract class StateBase : MonoBehaviour
     }
 
     public virtual void OnExecuteState()
+    {
+
+    }
+
+    public virtual void OnFixedExecuteState()
     {
 
     }

@@ -14,19 +14,45 @@ public class CombatState : StateBase
         base.Awake();
         canAttack = true;
     }
+
+    public override void OnEnterState()
+    {
+        base.OnEnterState();
+        Debug.Log("s2");
+    }
     public override void OnExecuteState()
     {
         base.OnExecuteState();
-
+       
         if (entity.isPerformingAction)
         {
             return;
         }
+        float angleTarget = Vector3.Angle(entity.transform.forward, entity.CheckDirectionTarget());
+        float dist = entity.CheckDistanceTarget();
 
-        entity.GoToTarget(entity.Target.position);
+        if (dist<1.45f)
+        {
+            entity.StopAgent();
+        }
+        else
+        {
+            entity.GoToTarget(entity.Target.position);
+        }
+      
 
+     
+        ///rotation to target
+        if (dist<3)
+        {
+            entity.SlerpRotationTarget(angleTarget);
+        }
+        else
+        {
+            entity.SlerpRotationVelocity(0);
+        }
 
-        if (CanAttack())
+        if (CanAttack(angleTarget))
         {
             if (Vector3.Distance(transform.position, entity.Target.position) < attackDistance)
             {
@@ -35,14 +61,21 @@ public class CombatState : StateBase
         }
        
     }
-    bool CanAttack()
+    bool CanAttack(float angle)
     {
-        float angleTarget = Vector3.Angle(entity.transform.forward, entity.CheckDirectionTarget());
+       
 
         Debug.DrawRay(transform.position, entity.CheckDirectionTarget().normalized, Color.red);
         Debug.DrawRay(transform.position, transform.forward, Color.green);
 
-        if (angleTarget > minAngleAttack)
+        if (entity.Target.TryGetComponent<Character>(out Character ant))
+        {
+            if (ant.dead)
+            {
+                return false;
+            }
+        }
+        if (angle > minAngleAttack)
         {
             return false;
         }

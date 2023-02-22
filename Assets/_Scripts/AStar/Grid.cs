@@ -25,6 +25,11 @@ public class Grid : MonoBehaviour
 
     }
 
+    void LateStart()
+    {
+
+    }
+
     
 
     void CreateGrid()

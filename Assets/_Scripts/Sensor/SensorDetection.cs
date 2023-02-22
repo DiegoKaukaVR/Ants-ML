@@ -30,6 +30,11 @@ public class SensorDetection : SensorBase
     {
         dist = 0;
         indexLessDist = 0;
+
+        if (targetsAround.Length == 0)
+        {
+            return targetsAround[0].transform;
+        }
         for (int i = 0; i < targetsAround.Length; i++)
         {
             dist = entity.CheckDistanceTarget(targetsAround[i].transform.position);

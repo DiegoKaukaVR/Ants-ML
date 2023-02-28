@@ -7,6 +7,8 @@ public class SensorTrace : SensorBase
     TraceManager traceManager;
     TraceGenerator traceGenerator;
 
+    public TraceManager.Info infoObjective;
+
     protected override void Start()
     {
         base.Start();
@@ -14,7 +16,15 @@ public class SensorTrace : SensorBase
     }
     public override bool UpdateSensor()
     {
-        return traceManager.CheckTraceProximity(entity);
+        if (traceManager.CheckTraceProximity(ref entity) == infoObjective)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+       
     }
 
 }

@@ -46,6 +46,14 @@ public abstract class StateBase : MonoBehaviour
         stateEvents.OnEnterEvent.Invoke();
     }
 
+    public virtual void OnEnterStateTransition()
+    {
+        for (int i = 0; i < transitions.Count; i++)
+        {
+            transitions[i].transitionType.OnEnterStateTransition();
+        }
+    }
+
     public virtual void OnExecuteState()
     {
 

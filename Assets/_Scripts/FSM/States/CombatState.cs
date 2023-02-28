@@ -30,7 +30,7 @@ public class CombatState : StateBase
         {
             return;
         }
-        float angleTarget = Vector3.Angle(entity.transform.forward, entity.CheckDirectionTarget());
+        float angleTarget = Vector3.Angle(entity.transform.forward, entity.CheckDirectionTarget()); 
         float dist = entity.CheckDistanceTarget();
 
         if (dist < stoppDist)

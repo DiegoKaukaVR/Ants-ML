@@ -10,13 +10,16 @@ public class GatherResourceState : StateBase
     public Transform headAnt;
     public GameObject resourcePrefab;
 
+    public Resource currentResource;
+
     bool haveResource;
 
-    bool gathering;
+    public bool gathering;
 
     public override void OnEnterState()
     {
         base.OnEnterState();
+        currentResource = entity.Target.GetComponent<Resource>();
         entity.GoToTarget(entity.Target.position);
     }
     public override void OnExecuteState()
@@ -25,9 +28,6 @@ public class GatherResourceState : StateBase
         {
             if (gathering)
             {
-                Resource resource = entity.Target.GetComponent<Resource>();
-                resource.GatherResource();
-             
                 /// COMO PUEDO ANALIZAR SI HA TERMINADO DE HACER GATHER RESOURCE?
                 entity.GoToTarget(entity.Target.position);
 
@@ -35,17 +35,26 @@ public class GatherResourceState : StateBase
                 {
                     RemoveResource();
                 }
+
+                // Añadir al almacen
                 gathering = false;
             }
             else
             {
                 entity.GoToTarget(Home.position);
-                TakeResource();
-             
-                gathering = true;
+                if (currentResource.GatherResource())
+                {
+                    TakeResource();
+                    gathering = true;
+                }
             }
         }
         
+    }
+    public override void OnExitState()
+    {
+        base.OnExitState();
+        entity.StopAgent();
     }
 
     GameObject resourcePiece;

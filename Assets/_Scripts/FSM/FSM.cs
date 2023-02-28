@@ -24,6 +24,12 @@ public class FSM : MonoBehaviour
         currentState = DictionaryStates["InitialState"];
         currentState.OnEnterState();
     }
+
+    public void ExitFSM()
+    {
+        currentState.OnExitState();
+        this.enabled = false;
+    }
     
     void SetStates()
     {
@@ -62,7 +68,9 @@ public class FSM : MonoBehaviour
         timeInState = 0;
 
         currentState = newState;
+     
         currentState.OnEnterState();
+        currentState.OnEnterStateTransition();
     }
 
     public void CheckTransitions()

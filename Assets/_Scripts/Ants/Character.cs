@@ -10,6 +10,7 @@ public class Character : MonoBehaviour
 
     public Transform Target;
 
+    public FSM fsm;
     [HideInInspector] public Animator animator;
     [HideInInspector] public AnimatorManager animatorManager;
     [HideInInspector] public NavMeshAgent myNavmeshAgent;
@@ -18,6 +19,8 @@ public class Character : MonoBehaviour
     Collider coll;
 
     public bool isPerformingAction;
+
+    public Queue<Transform> traceTarget;
 
 
     #region Stats System
@@ -55,6 +58,7 @@ public class Character : MonoBehaviour
         animator = animatorManager.GetComponent<Animator>();
         damageDealer = GetComponentInChildren<DamageDealer>();
         uiManagerUnit = GetComponentInChildren<UIManagerUnit>();
+        fsm = GetComponentInChildren<FSM>();
         currentHp = maxHp;
         coll = GetComponent<Collider>();
     }
@@ -268,6 +272,7 @@ public class Character : MonoBehaviour
     public bool dead;
     public void Death()
     {
+        fsm.ExitFSM();
         animator.SetTrigger("Death");
         myNavmeshAgent.enabled = false;
         coll.enabled = false;

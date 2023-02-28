@@ -7,14 +7,22 @@ public class TraceManager : MonoBehaviour
 {
     public static TraceManager instance;
 
+    public class Trace
+    {
+        public Queue<Transform> tracePos;
+        public Info info;
+
+
+    }
     public enum Info
     {
         white,
         green,
-        red
+        red,
+        none
     }
 
-    Dictionary<Character, Queue<Transform>> DictionaryAllTraces = new Dictionary<Character, Queue<Transform>>();
+    Dictionary<Character, Trace> DictionaryAllTraces = new Dictionary<Character, Trace>();
     private void Awake()
     {
         if (instance != null)
@@ -35,11 +43,11 @@ public class TraceManager : MonoBehaviour
     Vector3 B;
     Vector3 C;
 
-    public bool CheckTraceProximity(Character ant)
+    public Info CheckTraceProximity(ref Character ant)
     {
-        foreach (KeyValuePair<Character, Queue<Transform>> element in DictionaryAllTraces)
+        foreach (KeyValuePair<Character, Trace> element in DictionaryAllTraces)
         {
-            for (int i = 0; i < element.Value.Count; i++)
+            for (int i = 0; i < element.Value.tracePos.Count; i++)
             {
                 // If ant == ant
                 if (element.Key == ant)
@@ -48,32 +56,26 @@ public class TraceManager : MonoBehaviour
                 }
 
 
-                A = element.Value.Peek().position;
-                B = element.Value.ElementAt<Transform>(1).position;
+                A = element.Value.tracePos.Peek().position;
+                B = element.Value.tracePos.ElementAt<Transform>(1).position;
                 C = ant.transform.position;
 
                 // Check position in Line
                 if (LineDetection.DistanceLineSegmentPoint(A, B, C) < 0.1f)
-                {
-                    return true;
-
+                {  
+                    // Return All Queue (Trace)
+                    ant.traceTarget = element.Value.tracePos;
+                    // Get Information
+                    return element.Value.info;
                 }
-
-                // Get Information
-
-                // Return All Queue (Trace)
-
-               
             }
-          
-
         }
-        
-        return false;
+        return Info.none;
+
     }
    
     public void UpdateQueue(Queue<Transform> queue, Ant3D ant)
     {
-        DictionaryAllTraces[ant] = queue;
+        DictionaryAllTraces[ant].tracePos = queue;
     }
 }

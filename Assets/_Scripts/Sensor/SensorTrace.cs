@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class SensorTrace : SensorBase
 {
+    [SerializeField] SensorTraceManager sensorTraceManager;
     TraceManager traceManager;
     TraceGenerator traceGenerator;
 
+    public int idColonyTarget;
     public TraceManager.Info infoObjective;
 
     protected override void Start()
@@ -14,9 +16,17 @@ public class SensorTrace : SensorBase
         base.Start();
         traceManager = TraceManager.instance;
     }
+
+    TraceManager.Trace trace;
     public override bool UpdateSensor()
     {
-        if (traceManager.CheckTraceProximity(ref entity) == infoObjective)
+        trace = sensorTraceManager.updatedTrace;
+
+        if (trace == null)
+        {
+            return false;
+        }
+        if (trace.info == infoObjective && trace.idColony == idColonyTarget)
         {
             return true;
         }
@@ -24,7 +34,5 @@ public class SensorTrace : SensorBase
         {
             return false;
         }
-       
     }
-
 }

@@ -26,7 +26,7 @@ public abstract class StateBase : MonoBehaviour
     public class Transition
     {
         public string NameState;
-        public TransitionBase transitionType;
+        public List<SensorBase> transitionType;
         public bool whenFalse;
         public bool avaible;
     }
@@ -50,7 +50,10 @@ public abstract class StateBase : MonoBehaviour
     {
         for (int i = 0; i < transitions.Count; i++)
         {
-            transitions[i].transitionType.OnEnterStateTransition();
+            for (int y = 0; y < transitions[i].transitionType.Count; y++)
+            {
+                transitions[i].transitionType[y].OnEnterStateTransition();
+            }
         }
     }
 

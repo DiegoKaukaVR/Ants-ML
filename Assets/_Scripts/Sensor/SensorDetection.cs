@@ -17,7 +17,7 @@ public class SensorDetection : SensorBase
 
         if (targetsAround.Length>0)
         {
-            entity.Target = CalculateNearestCollider().root;
+            ant.Target = CalculateNearestCollider().root;
             return true;
         }
         else
@@ -37,7 +37,7 @@ public class SensorDetection : SensorBase
         }
         for (int i = 0; i < targetsAround.Length; i++)
         {
-            dist = entity.CheckDistanceTarget(targetsAround[i].transform.position);
+            dist = ant.CheckDistanceTarget(targetsAround[i].transform.position);
             if (nearestDist == 0)
             {
                 nearestDist = dist;

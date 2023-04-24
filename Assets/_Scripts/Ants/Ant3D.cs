@@ -25,9 +25,8 @@ public class Ant3D : Character
         }
 
         traceGenerator = GetComponentInChildren<TraceGenerator>();
-       
 
-
+        GameManager.instance.allAnts.Add(this);
     }
 
     #region Movement 3D

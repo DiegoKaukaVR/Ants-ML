@@ -86,6 +86,10 @@ public class CameraController3D : MonoBehaviour
 
     private void Update()
     {
+        //if (Time.timeScale == 0)
+        //{
+        //    return;
+        //}
         //inputs
         GetKeyboardMovement();
         CheckMouseAtScreenEdge();
@@ -99,7 +103,7 @@ public class CameraController3D : MonoBehaviour
 
     private void UpdateVelocity()
     {
-        horizontalVelocity = (this.transform.position - lastPosition) / Time.deltaTime;
+        horizontalVelocity = (this.transform.position - lastPosition) / Time.unscaledDeltaTime;
         horizontalVelocity.y = 0f;
         lastPosition = this.transform.position;
     }
@@ -163,14 +167,14 @@ public class CameraController3D : MonoBehaviour
         if (targetPosition.sqrMagnitude > 0.1f)
         {
             //create a ramp up or acceleration
-            speed = Mathf.Lerp(speed, maxSpeed, Time.deltaTime * acceleration);
-            transform.position += targetPosition * speed * Time.deltaTime;
+            speed = Mathf.Lerp(speed, maxSpeed, Time.unscaledDeltaTime * acceleration);
+            transform.position += targetPosition * speed * Time.unscaledDeltaTime;
         }
         else
         {
             //create smooth slow down
-            horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, Time.deltaTime * damping);
-            transform.position += horizontalVelocity * Time.deltaTime;
+            horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, Time.unscaledDeltaTime * damping);
+            transform.position += horizontalVelocity * Time.unscaledDeltaTime;
         }
 
         //reset for next frame
@@ -199,7 +203,7 @@ public class CameraController3D : MonoBehaviour
         //add vector for forward/backward zoom
         zoomTarget -= zoomSpeed * (zoomHeight - cameraTransform.localPosition.y) * Vector3.forward;
 
-        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, zoomTarget, Time.deltaTime * zoomDampening);
+        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, zoomTarget, Time.unscaledDeltaTime * zoomDampening);
         cameraTransform.LookAt(this.transform);
     }
 

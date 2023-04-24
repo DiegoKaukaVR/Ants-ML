@@ -25,22 +25,19 @@ public class ResourceStore : MonoBehaviour
     private void Start()
     {
 
-        for (int i = 0; i < resourceListCreator.Count; i++)
-        {
-            Resource resource = new Resource(resourceListCreator[i].resourcetype, resourceListCreator[i].quantity);
-            listResource.Add(resource);
-        }
+        //for (int i = 0; i < resourceListCreator.Count; i++)
+        //{
+        //    Resource resource = new Resource(resourceListCreator[i].resourcetype, resourceListCreator[i].quantity);
+        //    listResource.Add(resource);
+        //}
 
 
-        listResource.AddRange(resourceType);
-        quantityResourceList.AddRange(quantityResourcesArray);
+        //listResource.AddRange(resourceType);
+        //quantityResourceList.AddRange(quantityResourcesArray);
 
-        index1 = listResource.BinarySearch(resourceType[0]);
-        index2 = quantityResourceList.BinarySearch(2);
+        //index1 = listResource.BinarySearch(resourceType[0]);
+        //index2 = quantityResourceList.BinarySearch(2);
 
-        Debug.Log(index1);
-        Debug.Log(index2);
-        Debug.Log(listResource.Count);
 
 
     }

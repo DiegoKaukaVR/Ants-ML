@@ -11,6 +11,7 @@ public class TraceManager : MonoBehaviour
     {
         public Queue<Transform> tracePos;
         public Info info;
+        public int idColony;
 
 
     }
@@ -38,12 +39,11 @@ public class TraceManager : MonoBehaviour
     /// <summary>
     /// Returns TRACE
     /// </summary>
-    /// 
     Vector3 A;
     Vector3 B;
     Vector3 C;
 
-    public Info CheckTraceProximity(ref Character ant)
+    public Trace CheckTraceProximity(ref Character ant)
     {
         foreach (KeyValuePair<Character, Trace> element in DictionaryAllTraces)
         {
@@ -66,16 +66,28 @@ public class TraceManager : MonoBehaviour
                     // Return All Queue (Trace)
                     ant.traceTarget = element.Value.tracePos;
                     // Get Information
-                    return element.Value.info;
+                    return element.Value;
                 }
             }
         }
-        return Info.none;
 
+        return null;
     }
-   
+
+    bool idColonySet;
     public void UpdateQueue(Queue<Transform> queue, Ant3D ant)
     {
+        if (!DictionaryAllTraces.ContainsKey(ant))
+        {
+            return;
+        }
+
+        if (!idColonySet)
+        {
+            idColonySet = true;
+            DictionaryAllTraces[ant].idColony = ant.colonyID;
+        }
+
         DictionaryAllTraces[ant].tracePos = queue;
     }
 }

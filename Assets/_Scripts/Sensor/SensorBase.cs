@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class SensorBase : MonoBehaviour
 {
-    protected Character entity;
+    protected Character ant;
 
     protected virtual void Start()
     {
-        entity = GetComponentInParent<Character>();
+        ant = GetComponentInParent<Character>();
+    }
+
+    public virtual void OnEnterStateTransition()
+    {
+
     }
     public virtual bool UpdateSensor()
     {

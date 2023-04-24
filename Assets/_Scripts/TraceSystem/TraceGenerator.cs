@@ -92,12 +92,27 @@ public class TraceGenerator : MonoBehaviour
 
     }
 
+    int currentInfoTrail = 0;
     public void SetCurrentInfo(int index)
     {
+       
+
+        currentInfoTrail = index;
+
+        if (debug == false)
+        {
+            return;
+        }
 
         whiteTrail.SetActive(false);
         greenTrail.SetActive(false);
         redTrail.SetActive(false);
+
+        ///Mantener la linea cuando haces Debug(True/False)
+        ///Pasar las sphereDebugPoints a un parent y apagar y encender
+        whiteTrail.GetComponent<TrailRenderer>().Clear();
+        greenTrail.GetComponent<TrailRenderer>().Clear();
+        redTrail.GetComponent<TrailRenderer>().Clear();
 
         switch (index)  
         {
@@ -135,6 +150,19 @@ public class TraceGenerator : MonoBehaviour
             default:
                 return whiteMaterial;
         }
+    }
+
+    public void DisableTrails()
+    {
+        debug = false;
+        whiteTrail.SetActive(false);
+        greenTrail.SetActive(false);
+        redTrail.SetActive(false);
+    }
+    public void EnableTrails()
+    {
+        debug = true;
+        SetCurrentInfo(currentInfoTrail);
     }
 
 

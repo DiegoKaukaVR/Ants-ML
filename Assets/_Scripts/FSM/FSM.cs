@@ -83,17 +83,27 @@ public class FSM : MonoBehaviour
             }
             if (currentState.transitions[i].whenFalse)
             {
-                if (!currentState.transitions[i].transitionType.CheckTransition())
+                for (int z = 0; z < currentState.transitions[i].transitionType.Count; z++)
                 {
-                    ChangeState(currentState.transitions[i].NameState);
+                    if (!currentState.transitions[i].transitionType[z].UpdateSensor())
+                    {
+                        ChangeState(currentState.transitions[i].NameState);
+                        return;
+                    }
                 }
+               
             }
             else
             {
-                if (currentState.transitions[i].transitionType.CheckTransition())
+                for (int y = 0; y < currentState.transitions[i].transitionType.Count; y++)
                 {
-                    ChangeState(currentState.transitions[i].NameState);
+                    if (currentState.transitions[i].transitionType[y].UpdateSensor())
+                    {
+                        ChangeState(currentState.transitions[i].NameState);
+                        return;
+                    }
                 }
+               
             }
             
         }

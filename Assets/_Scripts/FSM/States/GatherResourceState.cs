@@ -42,7 +42,8 @@ public class GatherResourceState : StateBase
             else
             {
                 entity.GoToTarget(Home.position);
-                if (currentResource.GatherResource())
+
+                if (currentResource != null && currentResource.GatherResource())
                 {
                     TakeResource();
                     gathering = true;
@@ -54,6 +55,10 @@ public class GatherResourceState : StateBase
     public override void OnExitState()
     {
         base.OnExitState();
+        if (haveResource)
+        {
+            RemoveResource();
+        }
         entity.StopAgent();
     }
 
@@ -68,7 +73,8 @@ public class GatherResourceState : StateBase
     void RemoveResource()
     {
         haveResource = false;
-        resourcePiece.SetActive(false);
-        resourcePiece = null;
+        resourcePiece.transform.parent = null;
+        resourcePiece.GetComponent<Rigidbody>().useGravity = true;
+        resourcePiece.GetComponent<SphereCollider>().enabled = true;
     }
 }

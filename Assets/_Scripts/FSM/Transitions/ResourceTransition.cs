@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceTransition : TransitionBase
+public class ResourceTransition : SensorBase
 {
     public Resource resource;
     public GatherResourceState resourceState;
@@ -11,8 +11,12 @@ public class ResourceTransition : TransitionBase
     {
         resource = resourceState.currentResource;
     }
-    public override bool CheckTransition()
+    public override bool UpdateSensor()
     {
+        if (resource == null)
+        {
+            return true;
+        }
         if (resource.Quantity <= 0 && !resourceState.gathering)
         {
             return true;

@@ -9,11 +9,13 @@ public class TraceManager : MonoBehaviour
 
     public class Trace
     {
+        public Trace(Queue<Transform> tracePath)
+        {
+            tracePos = tracePath;
+        }
         public Queue<Transform> tracePos;
         public Info info;
         public int idColony;
-
-
     }
     public enum Info
     {
@@ -47,17 +49,21 @@ public class TraceManager : MonoBehaviour
     {
         foreach (KeyValuePair<Character, Trace> element in DictionaryAllTraces)
         {
+            // If ant == ant
+            if (element.Key == ant)
+            {
+                continue;
+            }
+
             for (int i = 0; i < element.Value.tracePos.Count; i++)
             {
-                // If ant == ant
-                if (element.Key == ant)
+                if (i+1 > element.Value.tracePos.Count-1)
                 {
                     continue;
                 }
 
-
-                A = element.Value.tracePos.Peek().position;
-                B = element.Value.tracePos.ElementAt<Transform>(1).position;
+                A = element.Value.tracePos.ElementAt<Transform>(i).position;
+                B = element.Value.tracePos.ElementAt<Transform>(i+1).position;
                 C = ant.transform.position;
 
                 // Check position in Line
@@ -75,12 +81,13 @@ public class TraceManager : MonoBehaviour
     }
 
     bool idColonySet;
-    public void UpdateQueue(Queue<Transform> queue, Ant3D ant)
+    public void UpdateQueue(Queue<Transform> queue, Ant3D ant, Info traceInfo)
     {
         if (!DictionaryAllTraces.ContainsKey(ant))
         {
-            return;
+            DictionaryAllTraces.Add(ant, new Trace(queue));
         }
+        
 
         if (!idColonySet)
         {
@@ -89,5 +96,6 @@ public class TraceManager : MonoBehaviour
         }
 
         DictionaryAllTraces[ant].tracePos = queue;
+        DictionaryAllTraces[ant].info = traceInfo;
     }
 }

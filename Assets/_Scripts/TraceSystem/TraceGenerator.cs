@@ -80,7 +80,11 @@ public class TraceGenerator : MonoBehaviour
         {
             point.GetComponent<MeshRenderer>().enabled = false;
         }
-      
+
+        // Add to trailManager
+
+        traceManager.UpdateQueue(trace.pointsQueue, ant, currentInfo);
+
     }
 
     void DeleteTrace()
@@ -88,7 +92,7 @@ public class TraceGenerator : MonoBehaviour
         trace.pointsQueue.Dequeue().gameObject.SetActive(false);
 
         /// AVISAR AL TRACEMANAGER
-        traceManager.UpdateQueue(trace.pointsQueue, ant);
+        traceManager.UpdateQueue(trace.pointsQueue, ant, currentInfo);
 
     }
 

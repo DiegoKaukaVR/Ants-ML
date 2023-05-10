@@ -13,10 +13,10 @@ public class Pathfinding : MonoBehaviour
 		grid = GetComponent<Grid>();
 	}
 
-	void Update()
+	void LateUpdate()
 	{
-		FindPath(grid.Agent.position, grid.Objective.position);
-	}
+        FindPath(grid.Agent.position, grid.Objective.position);
+    }
 
 	void FindPath(Vector3 startPos, Vector3 targetPos)
 	{

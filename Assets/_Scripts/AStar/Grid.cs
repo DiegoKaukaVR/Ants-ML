@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Grid : MonoBehaviour
 {
@@ -20,17 +21,18 @@ public class Grid : MonoBehaviour
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-
         CreateGrid();
-
+        FixGrid();
     }
 
-    void LateStart()
+  
+    private void Update()
     {
-
+        BlacklistCoordinates.Clear();
+        UpdateGrid();
+        FixGrid();
     }
 
-    
 
     void CreateGrid()
     {
@@ -41,9 +43,174 @@ public class Grid : MonoBehaviour
             for (int y = 0; y < gridSizeY; y++)
             {
                 Vector3 worldPoint = worldBottonLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
-                bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, obstacleMask));
+                bool walkable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, obstacleMask));
                 grid[x, y] = new Node(walkable, worldPoint, x, y); 
             }
+        }
+    }
+
+   
+
+    void UpdateGrid()
+    {
+        Vector3 worldBottonLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                Vector3 worldPoint = worldBottonLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
+                bool walkable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, obstacleMask));
+                grid[x, y].walkable = walkable;
+                grid[x, y].worldPosition = worldPoint;
+               
+            }
+        }
+
+
+    }
+  
+    Node[] neighborsNodes = new Node[4];
+
+    List<Vector2> BlacklistCoordinates = new List<Vector2>();
+    List<Vector2> WhitelistCoordinates = new List<Vector2>();
+
+    bool nextObstacle;
+
+    /// <summary>
+    /// RELLENA DE ROJO LOS HUECOS ADYACENTES PARA SOLUCIONAR EL PROBLEMA DE LAS LINEAS DIAGONALES
+    /// </summary>
+    void FixGrid()
+    {
+        
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                if (!grid[x, y].walkable)
+                {
+                    BlacklistCoordinates.Add(new Vector2(x,y));
+                    continue;
+                }
+
+                nextObstacle = false;
+                Array.Clear(neighborsNodes, 0, 4);
+
+                if (x+1 < gridSizeX)
+                {
+                    neighborsNodes[0] = grid[x + 1, y];
+                }
+                if (x - 1 >= 0)
+                {
+                    neighborsNodes[1] = grid[x - 1, y];
+                }
+                if (y+1 < gridSizeY)
+                {
+                    neighborsNodes[2] = grid[x, y + 1];
+                }
+                if (y - 1 >= 0)
+                {
+                    neighborsNodes[3] = grid[x, y - 1];
+                }
+
+
+                for (int i = 0; i < neighborsNodes.Length; i++)
+                {
+                    if (neighborsNodes[i] == null)
+                    {
+                        continue;
+                    }
+                    if (!neighborsNodes[i].walkable)
+                    {
+                        if (!nextObstacle)
+                        {
+                            nextObstacle = true;
+                        }
+                        else
+                        {
+                            BlacklistCoordinates.Add(new Vector2(x, y));
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+
+    
+        for (int i = 0; i < BlacklistCoordinates.Count; i++)
+        {
+            int x = Mathf.RoundToInt(BlacklistCoordinates[i].x);
+            int y = Mathf.RoundToInt(BlacklistCoordinates[i].y);
+            grid[x, y].walkable = false;
+        }
+    }
+    bool nextWalkable;
+    void ReFixGrid()
+    {
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = 0; y < gridSizeY; y++)
+            {
+                if (grid[x, y].walkable)
+                {
+                    continue;
+                }
+
+                nextWalkable = false;
+                Array.Clear(neighborsNodes, 0, 4);
+
+                if (x + 1 < gridSizeX)
+                {
+                    neighborsNodes[0] = grid[x + 1, y];
+                }
+                if (x - 1 >= 0)
+                {
+                    neighborsNodes[1] = grid[x - 1, y];
+                }
+                if (y + 1 < gridSizeY)
+                {
+                    neighborsNodes[2] = grid[x, y + 1];
+                }
+                if (y - 1 >= 0)
+                {
+                    neighborsNodes[3] = grid[x, y - 1];
+                }
+
+
+                for (int i = 0; i < neighborsNodes.Length; i++)
+                {
+                    if (neighborsNodes[i] == null)
+                    {
+                        continue;
+                    }
+                    if (neighborsNodes[i].walkable)
+                    {
+                        if (!nextWalkable)
+                        {
+                            nextWalkable = true;
+                        }
+                        else
+                        {
+                            WhitelistCoordinates.Add(new Vector2(x, y));
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+        
+        for (int i = 0; i < WhitelistCoordinates.Count; i++)
+        {
+            int x = Mathf.RoundToInt(WhitelistCoordinates[i].x);
+            int y = Mathf.RoundToInt(WhitelistCoordinates[i].y);
+            grid[x, y].walkable = true;
+        }
+        for (int i = 0; i < BlacklistCoordinates.Count; i++)
+        {
+            int x = Mathf.RoundToInt(BlacklistCoordinates[i].x);
+            int y = Mathf.RoundToInt(BlacklistCoordinates[i].y);
+            grid[x, y].walkable = false;
         }
     }
 

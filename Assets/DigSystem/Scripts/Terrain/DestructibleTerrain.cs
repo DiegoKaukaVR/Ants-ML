@@ -8,6 +8,7 @@ using int64 = System.Int64;
 public class DestructibleTerrain : MonoBehaviour
 {
     public Material material;
+    public LayerMask obstacleLayer;
 
     [Range(0.5f, 1.0f)]
     public float blockSize;
@@ -86,6 +87,7 @@ public class DestructibleTerrain : MonoBehaviour
         childObject.gameObject.layer = 6;
 
         DestructibleBlock blockComp = childObject.AddComponent<DestructibleBlock>();
+        //blockComp.gameObject.layer = obstacleLayer;
         blockComp.SetMaterial(material);
 
         return blockComp;

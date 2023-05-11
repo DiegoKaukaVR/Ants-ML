@@ -16,6 +16,7 @@ public class Grid : MonoBehaviour
     float nodeDiameter;
     int gridSizeX, gridSizeY;
 
+    [SerializeField] Ant2DPathFinding ant2D;
     private void Start()
     {
         nodeDiameter = nodeRadius * 2;
@@ -23,14 +24,29 @@ public class Grid : MonoBehaviour
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
         CreateGrid();
         FixGrid();
+
+        timer = maxTimer;
     }
 
-  
+    float timer = 0;
+    float maxTimer = 1;
     private void Update()
     {
         BlacklistCoordinates.Clear();
         UpdateGrid();
         FixGrid();
+
+        if (timer>=maxTimer)
+        {
+            ant2D.NewPathFinding2D();
+        }
+        else
+        {
+            timer += Time.deltaTime;
+        }
+            
+       
+      
     }
 
 
@@ -258,6 +274,7 @@ public class Grid : MonoBehaviour
     }
 
     public List<Node> path;
+    public List<Node> lastPath;
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));

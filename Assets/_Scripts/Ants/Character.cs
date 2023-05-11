@@ -47,6 +47,7 @@ public class Character : MonoBehaviour
     {
         Mode2D,
         Mode3D,
+        Pathfinding
     }
 
     public Mode antType;

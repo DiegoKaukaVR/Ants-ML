@@ -7,10 +7,17 @@ public class AnimatorManager : MonoBehaviour
     Character entity;
     Animator animator;
 
+    Rigidbody2D rb2D;
+
     private void Start()
     {
         entity = GetComponentInParent<Character>();
         animator = GetComponent<Animator>();
+
+        if (entity.antType == Character.Mode.Pathfinding)
+        {
+            rb2D = entity.GetComponent<Rigidbody2D>();
+        }
     }
 
     private void FixedUpdate()
@@ -20,6 +27,18 @@ public class AnimatorManager : MonoBehaviour
         {
             UpdateXZVelocity();
         }
+        if (entity.antType == Character.Mode.Pathfinding)
+        {
+            UpdateXZVelocityRB();
+        }
+       
+    }
+
+    public virtual void UpdateXZVelocityRB()
+    {
+        Vector3 localVelocity = transform.InverseTransformDirection(rb2D.velocity);
+        interpolatedVelocity = Vector3.Lerp(interpolatedVelocity, localVelocity, 0.1f);
+        animator.SetFloat("ZSpeed", interpolatedVelocity.z);
        
     }
 
@@ -30,7 +49,7 @@ public class AnimatorManager : MonoBehaviour
         {
             Vector3 localVelocity = transform.InverseTransformDirection(entity.myNavmeshAgent.velocity);
             interpolatedVelocity = Vector3.Lerp(interpolatedVelocity, localVelocity, 0.1f);
-            animator.SetFloat("ZSpeed", interpolatedVelocity.z);
+            animator.SetFloat("ZSpeed", interpolatedVelocity.magnitude);
             return;
         }
     

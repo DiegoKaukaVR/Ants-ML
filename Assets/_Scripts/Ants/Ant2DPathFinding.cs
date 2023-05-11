@@ -13,6 +13,8 @@ public class Ant2DPathFinding : Character
 
     public Dir initialDir;
     public Dir currentDir;
+
+    public Grid grid;
     public enum Dir
     {
         right,
@@ -37,14 +39,60 @@ public class Ant2DPathFinding : Character
     {
         rb2D = GetComponent<Rigidbody2D>();
     }
-    //protected void Update()
-    //{
-    //     Update2D();
-    //}
-    //protected void FixedUpdate()
-    //{
-    //     UpdatePyhsics2D();  
-    //}
+   
+    protected void FixedUpdate()
+    {
+        GoPath();
+    }
+
+    [SerializeField] Transform antTransform;
+    void GoPath()
+    {
+        if (path.Count == 0)
+        {
+            return;
+        }
+        Debug.DrawLine(transform.position, path[indexPath], Color.blue);
+        if (Vector2.Distance(transform.position, path[indexPath])<0.25f)
+        {
+            
+            Debug.Log("NEXT POINT");
+            if (indexPath +1 < path.Count)
+            {
+                indexPath++;
+            }
+          
+           
+        }
+        Vector2 dir = path[indexPath] - new Vector2(transform.position.x, transform.position.y);
+
+        float angle = Vector2.SignedAngle(transform.up, dir);
+        Vector2 direction = Vector2.up.Rotate(angle);
+        transform.Rotate(0, 0, angle);
+
+        dir.Normalize();
+        Debug.DrawRay(transform.position, dir);
+        rb2D.velocity = dir * speed*Time.fixedDeltaTime;
+    }
+
+
+
+    List<Vector2> path = new List<Vector2>();
+    int indexPath;
+    public void NewPathFinding2D()
+    {
+        path.Clear();
+        indexPath = 0;
+        if (grid.path == null)
+        {
+            return;
+        }
+        
+        for (int i = 0; i < grid.path.Count; i++)
+        {
+            path.Add(new Vector2(grid.path[i].worldPosition.x, grid.path[i].worldPosition.y));
+        }
+    }
 
     [SerializeField] Transform detectionGround;
     [SerializeField] int numberOfRays = 5;

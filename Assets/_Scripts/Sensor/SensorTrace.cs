@@ -11,6 +11,8 @@ public class SensorTrace : SensorBase
     public int idColonyTarget;
     public TraceManager.Info infoObjective;
 
+    public bool enemy;
+
     protected override void Start()
     {
         base.Start();
@@ -28,7 +30,18 @@ public class SensorTrace : SensorBase
         }
         if (trace.info == infoObjective && trace.idColony == idColonyTarget)
         {
+            if (enemy)
+            {
+                ant.Target = trace.ant.transform;
+                    return true;
+            }
+            if (trace.Target != null)
+            {
+                ant.Target = trace.Target;
+
+            }
             return true;
+
         }
         else
         {

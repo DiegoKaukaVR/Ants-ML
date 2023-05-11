@@ -40,6 +40,11 @@ public abstract class StateBase : MonoBehaviour
     {
         entity = GetComponentInParent<Ant3D>();
     }
+
+    private void OnValidate()
+    {
+        entity = GetComponentInParent<Ant3D>();
+    }
     public virtual void OnEnterState()
     {
         Debug.Log(NameState + " state enter");

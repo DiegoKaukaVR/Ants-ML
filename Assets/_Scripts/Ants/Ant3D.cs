@@ -98,7 +98,11 @@ public class Ant3D : Character
         return finalPoint;
     }
 
-
+    public override void Death()
+    {
+        base.Death();
+        TraceManager.instance.DeleteTraceFromQueue(this);
+    }
     private void OnDrawGizmosSelected()
     {
         if (antType == Character.Mode.Mode3D)
@@ -110,4 +114,6 @@ public class Ant3D : Character
             Gizmos.DrawCube(targetPos, Vector3.one * 0.3f);
         }
     }
+
+    
 }

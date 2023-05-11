@@ -9,13 +9,16 @@ public class TraceManager : MonoBehaviour
 
     public class Trace
     {
-        public Trace(Queue<Transform> tracePath)
+        public Trace(Queue<Transform> tracePath, Transform target)
         {
             tracePos = tracePath;
+            Target = target;
         }
         public Queue<Transform> tracePos;
         public Info info;
         public int idColony;
+        public Transform Target;
+        public Character ant;
     }
     public enum Info
     {
@@ -85,7 +88,10 @@ public class TraceManager : MonoBehaviour
     {
         if (!DictionaryAllTraces.ContainsKey(ant))
         {
-            DictionaryAllTraces.Add(ant, new Trace(queue));
+            
+               DictionaryAllTraces.Add(ant, new Trace(queue, ant.Target));
+           
+            
         }
         
 
@@ -97,5 +103,15 @@ public class TraceManager : MonoBehaviour
 
         DictionaryAllTraces[ant].tracePos = queue;
         DictionaryAllTraces[ant].info = traceInfo;
+        DictionaryAllTraces[ant].Target = ant.Target;
+        DictionaryAllTraces[ant].ant = ant;
+    }
+
+    public void DeleteTraceFromQueue(Ant3D ant)
+    {
+        if (DictionaryAllTraces.ContainsKey(ant))
+        {
+            DictionaryAllTraces.Remove(ant);
+        }
     }
 }

@@ -17,10 +17,20 @@ public class CombatState : StateBase
         canAttack = true;
     }
 
+
     public override void OnEnterState()
     {
         base.OnEnterState();
+        entity.GoToTarget(entity.Target.position);
         Debug.Log("s2");
+    }
+
+    public override void OnFixedExecuteState()
+    {
+        if (entity.Target.GetComponent<Character>().dead)
+        {
+            entity.fsm.ChangeState("Explore");
+        }
     }
     public override void OnExecuteState()
     {

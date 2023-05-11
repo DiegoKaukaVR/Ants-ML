@@ -35,6 +35,10 @@ public class FSM : MonoBehaviour
     {
         foreach (StateBase state in GetComponentsInChildren<StateBase>())
         {
+            if (DictionaryStates.ContainsKey(state.NameState))
+            {
+                continue;
+            }
             DictionaryStates.Add(state.NameState, state);
             state.fsm = this;
         }
@@ -69,6 +73,18 @@ public class FSM : MonoBehaviour
 
         currentState = newState;
      
+        currentState.OnEnterState();
+        currentState.OnEnterStateTransition();
+    }
+    public void ChangeState(StateBase newState)
+    {
+
+        currentState.OnExitState();
+        previousState = currentState;
+        timeInState = 0;
+
+        currentState = newState;
+
         currentState.OnEnterState();
         currentState.OnEnterStateTransition();
     }

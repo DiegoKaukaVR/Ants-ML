@@ -54,6 +54,11 @@ public class Character : MonoBehaviour
 
     protected virtual void Start()
     {
+      
+    }
+
+    private void OnValidate()
+    {
         myNavmeshAgent = GetComponent<NavMeshAgent>();
         animatorManager = GetComponentInChildren<AnimatorManager>();
         animator = animatorManager.GetComponent<Animator>();
@@ -271,13 +276,14 @@ public class Character : MonoBehaviour
     }
 
     public bool dead;
-    public void Death()
+    public virtual void Death()
     {
         fsm.ExitFSM();
         animator.SetTrigger("Death");
         myNavmeshAgent.enabled = false;
         coll.enabled = false;
         dead = true;
+     
 
     }
     public float CheckDistanceTarget()
